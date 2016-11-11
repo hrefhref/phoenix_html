@@ -78,10 +78,11 @@ defmodule Phoenix.HTML.Link do
     if method == :get do
       content_tag(:a, text, [href: to] ++ opts)
     else
+      {fallback, opts} = Keyword.pop(opts, :fallback, "#")
       opts = Keyword.put_new(opts, :rel, "nofollow")
       {form, opts} = form_options(opts, method, "link")
       form_tag(to, form) do
-        content_tag(:a, text, [href: "#", data: [submit: "parent"]] ++ opts)
+        content_tag(:a, text, [href: fallback, data: [submit: "parent"]] ++ opts)
       end
     end
   end
